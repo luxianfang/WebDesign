@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/base.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<div class="main" id="app">
+			<div class="center">
+				<div class="design">
+					
+				</div>
+			</div>
+		</div>
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/vue.min.js"></script>
+
+		<script type="text/javascript">
+			var list = JSON.parse(localStorage.getItem("list"));
+			console.log(list);
+			
+			// $(".design").append()
+			var el;
+			$.each(list,function(index,obj){
+				console.log(obj)
+				var type = obj.type
+				
+				if (type == 'div') {
+					var div = document.createElement("div");
+					div.id = obj.id;
+					div.className = 'control';
+					div.style.width = '100%';
+					div.style.height = '100px';
+					div.onclick = "elClick";
+					$(".design").append(div);
+				}
+				if (type == 'label') {
+					var el = document.createElement("label");
+					el.innerHTML = '文本';
+					el.id = obj.id;
+					el.className = 'control';
+					$(".design").append(el);
+				}
+				if (type == 'input') {
+					el = document.createElement("input");
+					el.id = obj.id;
+					el.className = 'control';
+					$(".design").append(el);
+				
+					 
+				}
+				if (type == 'label_input') {
+				
+					var div = document.createElement("div");
+					div.id = obj.id;
+					div.className = 'control';
+					div.style.width = '100%';
+					div.style.minHeight = '23px';
+				
+					var label = document.createElement("label");
+					label.innerHTML = '文本';
+					label.id =obj.id;
+				
+					var input = document.createElement("input");
+					input.id = obj.id;
+				
+					$(div).append(label, input);
+					$(".design").append(div);
+				}
+			})
+			
+			function elClick(){
+				console.log(1)
+			}
+			
+			
+			
+		</script>
+	</body>
+
+</html>
