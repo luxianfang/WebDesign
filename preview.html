@@ -18,6 +18,10 @@
 				<div style="text-align: center;">
 					<button v-on:click="doSime">获取数据</button>
 				</div>
+				
+				<div style="display: flex;width: 100%;min-height: 100px;">
+					<textarea id="r" style="display: flex;width: 100%;"></textarea>
+				</div>
 
 			</div>
 		</div>
@@ -56,6 +60,7 @@
 						arr=[];
 						getChildren($('#design').children());
 						console.log(arr)
+						$('#r').val(JSON.stringify(arr))
 					}
 				},
 				mounted() {
