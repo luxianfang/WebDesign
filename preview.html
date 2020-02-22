@@ -11,74 +11,66 @@
 	<body>
 		<div class="main" id="app">
 			<div class="center">
-				<div class="design">
-					
+				<div class="design" id="design">
+
 				</div>
+
+				<div style="text-align: center;">
+					<button v-on:click="doSime">获取数据</button>
+				</div>
+
 			</div>
 		</div>
 		<script src="js/jquery-3.3.1.min.js"></script>
 		<script src="js/vue.min.js"></script>
 
 		<script type="text/javascript">
-			var list = JSON.parse(localStorage.getItem("list"));
-			console.log(list);
-			
-			// $(".design").append()
-			var el;
-			$.each(list,function(index,obj){
-				console.log(obj)
-				var type = obj.type
+			var arr = [];
+
+			function getChildren(el) {
 				
-				if (type == 'div') {
-					var div = document.createElement("div");
-					div.id = obj.id;
-					div.className = 'control';
-					div.style.width = '100%';
-					div.style.height = '100px';
-					div.onclick = "elClick";
-					$(".design").append(div);
-				}
-				if (type == 'label') {
-					var el = document.createElement("label");
-					el.innerHTML = '文本';
-					el.id = obj.id;
-					el.className = 'control';
-					$(".design").append(el);
-				}
-				if (type == 'input') {
-					el = document.createElement("input");
-					el.id = obj.id;
-					el.className = 'control';
-					$(".design").append(el);
-				
-					 
-				}
-				if (type == 'label_input') {
-				
-					var div = document.createElement("div");
-					div.id = obj.id;
-					div.className = 'control';
-					div.style.width = '100%';
-					div.style.minHeight = '23px';
-				
-					var label = document.createElement("label");
-					label.innerHTML = '文本';
-					label.id =obj.id;
-				
-					var input = document.createElement("input");
-					input.id = obj.id;
-				
-					$(div).append(label, input);
-					$(".design").append(div);
-				}
-			})
-			
-			function elClick(){
-				console.log(1)
+				$.each(el, function(index, obj) {
+					if (obj.children) {
+						getChildren(obj.children);
+					}
+					if (obj.value != null && obj.value != undefined) {
+						arr.push({
+							"name": obj.value,
+							"value": obj.value
+						});
+					}
+
+				})
 			}
-			
-			
-			
+
+			var vue = new Vue({
+				el: "#app",
+				data: {
+					"name": "lxf"
+				},
+				methods: {
+					doSime: function() {
+						this.$data.name = 111;
+						// console.log(this.$data.name)
+						// console.log($('#design').children())
+						arr=[];
+						getChildren($('#design').children());
+						console.log(arr)
+					}
+				},
+				mounted() {
+					var html = localStorage.getItem("html");
+					console.log(html);
+					$(".design").append(html);
+				}
+
+			})
+
+
+
+			// function elClick(){
+			// 	console.log(1)
+			// }
 		</script>
 	</body>
 

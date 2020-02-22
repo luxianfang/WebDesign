@@ -11,8 +11,13 @@
 
 	<body>
 		<div class="main" id="app">
-			<div class="left">
-				<button text="label" id='label' ondragstart="drag(event)" draggable="true">
+			<div class="left" >
+				<div class="controlList" v-for="(item,index) in controlList" :key='index'>
+					<button v-bind:text="item['name']" v-bind:id="item['name']" ondragstart="drag(event)" draggable="true">
+						{{item["text"]}}
+					</button>
+				</div>
+				<!-- <button text="label" id='label' ondragstart="drag(event)" draggable="true">
 					文本
 				</button>
 				<button text="input" id='input' ondragstart="drag(event)" draggable="true">
@@ -23,12 +28,11 @@
 				</button>
 				<button text="div" id='div' ondragstart="drag(event)" draggable="true">
 					图层(div)
-				</button>
+				</button> -->
 			</div>
-
 			<div class="center">
 				<div class="design" id='design' ondrop="drop(event)" ondragover="allowDrop(event)">
-					
+
 					<!-- <div class="control" v-for="(item,index) in list" :key='index'>
 						<template v-if="item['type']=='input'">
 							<input />

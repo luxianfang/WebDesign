@@ -1,8 +1,34 @@
 var list = []
+var controlList = [{
+		"name": "div",
+		"text": "div",
+		"html": "<div style='width:100%;min-height: 100px;' class='control'></div>"
+	},
+	{
+		"name": "label",
+		"text": "文本",
+		"html": "<label class='control'>文本</label>"
+	},
+	{
+		"name": "input",
+		"text": "输入框",
+		"html": "<input class='control'></input>"
+	},
+	{
+		"name": "label_input",
+		"text": "文本输入框",
+		"html": "<div style='width:100%;min-height: 23px;' class='control'><label>文本</label><input></input></div>"
+	},
+]
+
+
+
+
 var vue = new Vue({
 	el: "#app",
 	data: {
-		list: list
+		list: list,
+		controlList: controlList
 	},
 
 	methods: {
@@ -24,6 +50,11 @@ var vue = new Vue({
 			})
 		},
 		preView: function() {
+			console.log($('#design'));
+			console.log($('#design')[0].innerHTML);
+			localStorage.setItem("html",$('#design')[0].innerHTML);
+			// getChildren($('#design').children());
+			// console.log(arr);
 			window.open("preview.html");
 		}
 	}
@@ -45,180 +76,54 @@ function drop(ev) {
 	// 	scope: ".design"
 	// })
 
-	var el = {};
-
+	var html = "";
 	if (data == 'div') {
-		var div = document.createElement("div");
-		div.id = data + "_" + list.length;
-		div.className = 'control';
-		div.style.width = '100%';
-		div.style.minHeight = '100px';
-		$(div).on("click",elClick);
-		$(ev.target).append(div);
-
-		el = {
-			"type": data,
-			"name": data + "_" + list.length,
-			"id": data + "_" + list.length,
-			"class": "control",
-			"options": {
-				"width": "100%",
-				"height": "100px",
-				"defaultValue": "",
-				"required": false,
-				"dataType": "string",
-				"fun": ""
-			},
-			"childNodes": []
-		}
-
+		html = "<div style='width:100%;min-height: 100px;' class='control'></div>"
 	}
 	if (data == 'label') {
-		var el = document.createElement("label");
-		el.innerHTML = '文本';
-		el.id = data + "_" + list.length;
-		el.className = 'control';
-		$(div).on("click",elClick);
-		$(ev.target).append(el);
-
-		el = {
-			"type": data,
-			"name": data + "_" + list.length,
-			"id": data + "_" + list.length,
-			"class": "control",
-			"options": {
-				"width": "",
-				"height": "",
-				"defaultValue": "",
-				"required": false,
-				"dataType": "string",
-				"fun": ""
-			},
-			"childNodes": []
-		}
-
+		html = "<label class='control'>文本</label>"
 	}
 	if (data == 'input') {
-		el = document.createElement("input");
-		el.id = data + "_" + list.length;
-		el.className = 'control';
-		$(div).on("click",elClick);
-		$(ev.target).append(el);
-
-		el = {
-			"type": data,
-			"name": data + "_" + list.length,
-			"id": data + "_" + list.length,
-			"class": "control",
-			"options": {
-				"width": "",
-				"height": "",
-				"defaultValue": "",
-				"required": false,
-				"dataType": "string",
-				"fun": ""
-			},
-			"childNodes": []
-		}
+		html = "<input class='control' v-model='name'></input>"
 	}
 	if (data == 'label_input') {
-
-		var div = document.createElement("div");
-		div.id = data + "_" + list.length;
-		div.className = 'control';
-		div.style.width = '100%';
-		div.style.minHeight = '23px';
-		$(div).on("click",elClick);
-
-		var label = document.createElement("label");
-		label.innerHTML = '文本';
-		label.id = data + "_" + list.length;
-		$(div).on("click",elClick);
-
-		var input = document.createElement("input");
-		input.id = data + "_" + list.length;
-		$(div).on("click",elClick);
-
-		$(div).append(label, input);
-		$(ev.target).append(div);
-
-		el = {
-			"type": "div",
-			"name": data + "_" + list.length,
-			"id": data + "_" + list.length,
-			"class": "control",
-			"options": {
-				"width": "",
-				"height": "",
-				"defaultValue": "",
-				"required": false,
-				"dataType": "string",
-				"fun": ""
-			},
-			"childNodes": [{
-					"type": "label",
-					"name": "label" + "_" + list.length,
-					"id": "label" + "_" + list.length,
-					"class": "control",
-					"options": {
-						"width": "",
-						"height": "",
-						"defaultValue": "",
-						"required": false,
-						"dataType": "string",
-						"fun": ""
-					},
-				},
-				{
-					"type": "input",
-					"name": "input" + "_" + list.length,
-					"id": "input" + "_" + list.length,
-					"class": "control",
-					"options": {
-						"width": "",
-						"height": "",
-						"defaultValue": "",
-						"required": false,
-						"dataType": "string",
-						"fun": ""
-					}
-				}
-			]
-		}
+		html = "<div style='width:100%;min-height: 23px;' class='control'><label>文本</label><input></input></div>"
 	}
 
-	console.log(ev.target.id);
-
-	var arr = $.grep(list, function(n, i) {
-		return n.id == ev.target.id && ev.target.id != 'design';
-	});
-
-	console.log(arr);
-
-	if (arr.length <= 0) {
-		list.push(el)
-	} else {
-		// console.log(arr[0].childNodes);
-		arr[0]["childNodes"].push(el);
-	}
-
-
-	//n["childNodes"].push(el);
-	//list.push(el)
-
-	console.log(list);
-	localStorage.setItem("list", JSON.stringify(list));
-
+	$(ev.target).on("click", elClick);
+	$(ev.target).append(html);
+	console.log($('#design').children());
 }
+
+var arr = [];
+
+function getChildren(el) {
+	$.each(el, function(index, obj) {
+		if (obj.children) {
+			getChildren(obj.children);
+		}
+		arr.push(obj);
+	})
+}
+
 // localStorage.clear();
 var currEl;
+
 function elClick(e) {
-	console.log(e.target)
-	if(currEl!=null){
-		currEl.setAttribute("class","control")
+	console.log(e.target.id)
+	if (e.target.id == 'design') return;
+	if (currEl != null) {
+		currEl.setAttribute("class", "control")
 	}
 	currEl = e.target;
 	// console.log(this)
-	e.target.setAttribute("class","controlSelected")
+	e.target.setAttribute("class", "controlSelected")
 }
 
+function guid() {
+	return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+		var r = Math.random() * 16 | 0,
+			v = c == 'x' ? r : (r & 0x3 | 0x8);
+		return v.toString(16);
+	});
+}
