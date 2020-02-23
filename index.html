@@ -5,58 +5,31 @@
 		<meta charset="utf-8">
 		<title></title>
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-		<!-- <link href="css/mui.css" rel="stylesheet" /> -->
 		<link href="css/base.css" rel="stylesheet" />
 	</head>
 
 	<body>
 		<div class="main" id="app">
-			<div class="left" >
+			<div class="left">
 				<div class="controlList" v-for="(item,index) in controlList" :key='index'>
-					<button v-bind:text="item['name']" v-bind:id="item['name']" ondragstart="drag(event)" draggable="true">
-						{{item["text"]}}
+					<button v-bind:text="item['name']" v-bind:id="item['name']" v-html='item["text"]' v-text='item["text"]'
+					 v-on:dragstart="drag(event,index)"
+						draggable="true">
 					</button>
 				</div>
-				<!-- <button text="label" id='label' ondragstart="drag(event)" draggable="true">
-					文本
-				</button>
-				<button text="input" id='input' ondragstart="drag(event)" draggable="true">
-					输入框
-				</button>
-				<button text="label_input" id='label_input' ondragstart="drag(event)" draggable="true">
-					文本输入框
-				</button>
-				<button text="div" id='div' ondragstart="drag(event)" draggable="true">
-					图层(div)
-				</button> -->
 			</div>
 			<div class="center">
-				<div class="design" id='design' ondrop="drop(event)" ondragover="allowDrop(event)">
-
-					<!-- <div class="control" v-for="(item,index) in list" :key='index'>
-						<template v-if="item['type']=='input'">
-							<input />
-						</template>
-						<template v-if="item['type']=='label'">
-							<label v-text="item['text']"></label>
-						</template>
-						<template v-if="item['type']=='textarea'">
-							<textarea>
-							</textarea>
-						</template>
-						<template v-if="item['type']=='label_input'">
-							<label v-text="item['text']"></label>
-							<input />
-						</template>
-						<template v-if="item['type']=='div'">
-							<div style="background-color: #4CD964;height: 200px;width: 300px;" v-bind:id="item['id']"></div>
-						</template>
-					</div> -->
+				<div class="design" id='design' v-on:drop="drop(event)" v-on:dragover="allowDrop(event)">
 				</div>
 			</div>
 			<div class="right">
-				right
 				<a href="#" v-on:click="preView">预览</a>
+				<div>
+					标识:<input id="name" v-on:change="nameChange(event)"/>
+				</div>
+				<div>
+					默认值:<input id="value" v-on:change="valueChange(event)"/>
+				</div>
 			</div>
 		</div>
 
