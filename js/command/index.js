@@ -62,20 +62,16 @@ var vue = new Vue({
 		drop: function(ev) {
 			ev.preventDefault();
 			var html = ev.dataTransfer.getData("html");
-			$(ev.target).on("click", elClick);
-			$(ev.target).append(html);
+			var tempHtml = setElAttribute($(html));
+			$(ev.target).append(tempHtml);
 		},
 		allowDrop: function(ev) {
 			ev.preventDefault();
 		},
 		nameChange: function(ev) {
 			if (currEl != undefined) {
-				console.log(ev.target.value)
-				console.log(currEl)
 				currEl.setAttribute("name", ev.target.value)
-				console.log(currEl)
 			}
-
 		},
 		valueChange: function() {
 
@@ -94,22 +90,21 @@ function getChildren(el) {
 	})
 }
 
-function setName(el) {
+function setElAttribute(el) {
 	var r;
 	$.each(el, function(index, obj) {
 		if (obj.children) {
-			setName(obj.children);
+			setElAttribute(obj.children);
 		}
-		obj.setAttribute("id", obj.localName + "_" + guid())
-		obj.setAttribute("name", obj.localName + "_" + guid())
+		$(obj).attr("id", obj.localName + "_" + guid())
+		$(obj).attr("name", obj.localName + "_" + guid())
+		$(obj).on("click", elClick); 
 		r = obj;
 	})
 	return r;
 }
 
 var currEl;
-
-
 function elClick(e) {
 	console.log(e.target)
 	if (e.target.id == 'design') return;
@@ -118,6 +113,7 @@ function elClick(e) {
 	}
 	currEl = e.target;
 	e.target.setAttribute("class", "controlSelected")
+	
 	if (!e.target.id) {
 		e.target.setAttribute("id", e.target.localName + "_" + guid())
 	}
